@@ -1,0 +1,43 @@
+
+/*
+Goal: Design, test and debug a program and hardware that senses when the pushbutton is pressed and
+waits until the pushbutton is released, then begins flashing the LED (on for 1 second, off for 1sec).
+*/
+#define PBPIN 13 //Push button
+#define LEDPIN 4 //LED button
+
+  bool state = false;
+  bool lastState = false;
+  bool pressed = false;
+  
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(PBPIN, INPUT);
+  pinMode(LEDPIN, OUTPUT);
+  Serial.begin(9600);  //allows user to use print() function to display to Serial 
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+  pressed = digitalRead(PBPIN);
+
+  //Checks to see if button was pressed and then released 
+  //If pressed & held then lastState is update and loop() continues 
+  if(pressed == true && lastState == false)
+    lastState = true;
+    
+  //Once you release the button, pressed is false and lastState was already true
+  else if(pressed == false && lastState == true){
+    lastState = false;
+    state = !state; //state becomes true now
+  }
+
+  //Infinite loop if state is true
+  while(state == true){ 
+    digitalWrite(LEDPIN, HIGH);
+    delay(1000);
+    digitalWrite(LEDPIN, LOW);
+    delay(1000);
+  }  
+}
