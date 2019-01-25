@@ -1,0 +1,29 @@
+/*
+Goal: Adapt the circuit and code in Task 1 to use a potentiometer to control the speed of the flashing
+LED.
+*/
+#define PPIN A5 //Potentiometer button
+#define LEDPIN 13 //LED button
+
+  int timeDelay;
+  
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(PPIN, INPUT);
+  pinMode(LEDPIN, OUTPUT);
+  Serial.begin(9600);  //allows user to use print() function to display to Serial 
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  
+  Serial.println(analogRead(PPIN));
+  timeDelay = analogRead(PPIN);//Potentiometer analog goes from 0 to 1023
+
+  //Allows light to flash
+  digitalWrite(LEDPIN, HIGH);
+  delay(timeDelay);//delay will be from 0 seconds to 1023 milliseconds (1.023s)
+  digitalWrite(LEDPIN, LOW);
+  delay(timeDelay);
+        
+}
